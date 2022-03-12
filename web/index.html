@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body style="display:flex;justify-content: center;align-items: center;">
+    <h1 style="font-size: 50pt;color:rgb(254, 54, 54)">x y</h1>
+    <script>
+        function postData(name,data){
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", '/', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.send(JSON.stringify({
+                name: name,
+                value: data
+            }));
+        }
+        pX = 0;
+        pY = 0;
+        pT = 0;
+        onmousemove = function(e){            
+            x = e.clientX;
+            y = e.clientY;
+
+            if(Math.abs(pX-x) > 1 || Math.abs(pY-y) > 1| Math.abs(pT - Date.now > 5000)){
+                pX = x;
+                pY = y;
+                pT = Date.now;
+                postData("mouseMovement",[x,y]);
+            }
+        }
+
+        function printMousePos(e) {
+            document.body.textContent =
+                "clientX: " + e.clientX +
+                " - clientY: " + e.clientY;
+            postData("click",[]);
+
+        }
+        document.addEventListener("click", printMousePos);
+
+    </script>
+</body>
+</html>

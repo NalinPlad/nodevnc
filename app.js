@@ -18,13 +18,13 @@ const server = http.createServer((req, res) => {
             var x,_y,y,screenWidth,screenHeight;
 
             var obj = JSON.parse(body);
-            console.log(obj);
+            // console.log(obj);
             switch(obj.name){
                 case 'mouseMovement':
                     x = obj.value[0];
             
                     _y = obj.value[1];  
-                    y = scale(_y,0,1536,0,1600);
+                    y = scale(_y,0,1600,0,1920);
                     robot.moveMouse(x,y);
                     break;
                 case 'click':

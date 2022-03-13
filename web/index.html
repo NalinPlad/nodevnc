@@ -7,7 +7,7 @@
     <title>Document</title>
 </head>
 <body style="display:flex;justify-content: center;align-items: center;">
-    <h1 style="font-size: 50pt;color:rgb(254, 54, 54)">x y</h1>
+    <h1 style="font-size: 50pt;color:rgb(254, 54, 54)">x y m</h1>
     <script>
         function postData(name,data){
             var xhr = new XMLHttpRequest();
@@ -25,11 +25,13 @@
             x = e.clientX;
             y = e.clientY;
 
-            if(Math.abs(pX-x) > 1 || Math.abs(pY-y) > 1| Math.abs(pT - Date.now > 5000)){
-                pX = x;
-                pY = y;
-                pT = Date.now;
-                postData("mouseMovement",[x,y]);
+            if(Math.abs(pX-x) > 1 || Math.abs(pY-y) > 1){
+                if(Math.abs(Date.now - pT > 5)){
+                    pX = x;
+                    pY = y;
+                    pT = Date.now;
+                    postData("mouseMovement",[x,y]);
+                }
             }
         }
 

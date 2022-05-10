@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Broadcaster</title>
+    <meta charset="UTF-8" />
+    <link href="/styles.css" rel="stylesheet">
+</head>
+
+<body>
+    <video autoplay muted class="broadcastVid"></video>
+    <section>
+        <h1>Video Settings</h1>
+        <br>
+        <button onclick="loadWithConfig()">Reload Video</button>
+        <br>
+        <br>
+        <label for="iRes">Downscale factor</label>
+        <input name="iRes" id="res" value="1"></input>
+        <br>
+        <label for="iFrames">Max Framerate</label>
+        <input name="iFrames" id="framerate" value="30"></input>
+    </section>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/broadcast.js"></script>
+</body>
+
+</html>

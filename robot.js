@@ -1,6 +1,7 @@
-var robot = require("robotjs");
+const robot = require('robot.js');
 
-var mouse = robot.getMousePos();
+while (true){
+    var mouse = robot.getMousePos();
+console.log("Mouse is at x:" + mouse.x + " y:" + mouse.y);
 
-console.log(robot.getScreenSize())
-
+}

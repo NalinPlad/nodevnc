@@ -1,9 +1,14 @@
+const https = require('https')
 const http = require('http')
 const fs = require('fs')
+const express = require('express')
+const cors = require('cors')
 
-const server = http.createServer((req, res) => {
-  res.writeHead(200, { 'content-type': 'text/html' })
-  fs.createReadStream('index.html').pipe(res)
-})
+const port = 9000;
 
-server.listen(process.env.PORT || 9000)
+const app = express();
+app.use(express.static('public'));
+
+const server = http.createServer(app)
+
+server.listen(process.env.PORT || port, () => console.log(`Server is running on port ${port}`))

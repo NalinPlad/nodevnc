@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Viewer</title>
+	<meta charset="UTF-8" />
+	<link href="/styles.css" rel="stylesheet">
+</head>
+<body>
+<video autoplay muted class="video"></video>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/watch.js"></script>
+<script>
+    function connect() {
+        ws = new WebSocket('ws://104.13.212.120:9898/');
+        ws.onopen = function () {
+            console.log('Websocket client // handshake');
+            // ws.send('Hi this is web client.');
+        };
+        ws.onmessage = function (e) {
+            console.log("Received: '" + e.data + "'");
+        };
+
+    }
+
+    connect()
+
+
+    function convertRange(value, r1, r2) {
+        return (value - r1[0]) * (r2[1] - r2[0]) / (r1[1] - r1[0]) + r2[0];
+    }
+    pX = 0;
+    pY = 0;
+    pT = 0;
+    onmousemove = function (e) {
+        x = e.clientX;
+        y = e.clientY;
+
+        x = convertRange(x, [0, window.screen.width], [0, 1920]);
+        y = convertRange(y, [0, window.screen.height], [0, 1080]);
+
+        if (Math.abs(pX - x) > 0 || Math.abs(pY - y) > 0) {
+            pX = x;
+            pY = y;
+            pT = Date.now;
+            ws.send(`{"data":"mouseMovement","x":${x},"y":${y}}`);
+        }
+    }
+
+    function sendClick(e) {
+        console.log("click")
+        ws.send(`{"data":"click"}`);
+    }
+    document.addEventListener("click", sendClick);
+
+    function logKeyDown(e) {
+        if (e.repeat) { return }
+        console.log(e.key);
+        ws.send(`{"data":"keyEvent","key":"${e.key}","event":"down"}`);
+    }
+
+    document.addEventListener('keydown', logKeyDown);
+
+    function logKeyUp(e) {
+        if (e.repeat) { return }
+        console.log(e.key);
+        ws.send(`{"data":"keyEvent","key":"${e.key}","event":"up"}`);
+    }
+
+    document.addEventListener('keyup', logKeyUp);
+</script>
+<button onclick="connect()">Reconnect Input</button>
+
+
+</body>
+</html>
